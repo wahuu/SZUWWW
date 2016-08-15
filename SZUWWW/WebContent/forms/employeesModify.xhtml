@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Nowy pracownik</h1>
+		<h:form>
+			<p:panelGrid styleClass="ui-panelgrid-blank">
+				<p:row>
+					<p:column>
+						<p:outputLabel for="imie" value="Imie" style="margin-right: 100px;"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="imie"
+							value="#{employeeForm.modifyEmployee.firstName}" style="margin-right: 200px;"></p:inputText>
+					</p:column>
+					<p:column rowspan="6">
+						<p:pickList id="pickList" value="#{employeeForm.areasModel}"
+							var="areaModel" itemValue="#{areaModel}"
+							itemLabel="#{areaModel.borought}"
+							converter="primefacesPickListConverter" disabled="#{employeeForm.modifyEmployee.position == 'bok' or employeeForm.modifyEmployee.position == 'dyspozytor'}">
+							<f:facet name="sourceCaption">Wszystkie rejony</f:facet>
+							<f:facet name="targetCaption">Rejony pracownika</f:facet>
+						</p:pickList>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="nazwisko" value="Nazwisko"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="nazwisko"
+							value="#{employeeForm.modifyEmployee.lastName}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="login" value="Login"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="login"
+							value="#{employeeForm.modifyEmployee.login}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="haslo" value="Hasło"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="haslo"
+							value="#{employeeForm.modifyEmployee.password}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="telefon" value="Telefon"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="telefon"
+							value="#{employeeForm.modifyEmployee.phone}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="pozycja" value="Pozycja"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectOneButton id="pozycja" value="#{employeeForm.modifyEmployee.position}">
+							<f:selectItem itemLabel="Bok" itemValue="bok"/>
+							<f:selectItem itemLabel="Dyspozytor" itemValue="dyspozytor"/>
+							<f:selectItem itemLabel="Monter" itemValue="monter"/>
+						</p:selectOneButton>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<h:panelGroup>
+							<p:commandButton value="Dodaj" action="#{employeeForm.addNew}"
+								rendered="#{employeeForm.modifyEmployee.id == 0}"></p:commandButton>
+							<p:commandButton value="Aktualizuj"
+								action="#{employeeForm.modify}"
+								rendered="#{employeeForm.modifyEmployee.id > 0}"></p:commandButton>
+						</h:panelGroup>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

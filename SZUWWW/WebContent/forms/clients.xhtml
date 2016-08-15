@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">SZUWWW Clients</ui:define>
+	<ui:define name="content">
+		<h1>Clients</h1>
+
+		<h:form styleClass="form-horizontal">
+			<div class="form-group">
+				<p:outputLabel value="Imie"></p:outputLabel>
+				<p:inputText value="#{clientForm.imie}"></p:inputText>
+			</div>
+			<div class="form-group">
+				<p:outputLabel value="Nazwisko"></p:outputLabel>
+				<p:inputText value="#{clientForm.nazwisko}"></p:inputText>
+			</div>
+		</h:form>
+
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Imie</th>
+					<th>Nazwisko</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ui:repeat var="stud" value="#{clientForm.allClients}">
+					<tr>
+						<td>#{stud.firstName}</td>
+						<td>#{stud.lastName}</td>
+					</tr>
+				</ui:repeat>
+			</tbody>
+		</table>
+		<h:form>
+			<h:commandButton value="Add Custom Objects" action="#{clientForm.addCustomObjects}" />
+		</h:form>
+	</ui:define>
+</ui:composition>

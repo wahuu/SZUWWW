@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Pracownicy</h1>
+		<h:form>
+			<p:commandButton value="Dodaj pracownika" icon="ui-icon-plusthick"
+				action="#{employeeForm.goToAddNew}"></p:commandButton>
+		</h:form>
+
+		<p:dataTable var="employee" value="#{employeeForm.allEmployees}">
+			<p:column headerText="Imie" sortBy="#{employee.firstName}">
+				<h:outputText value="#{employee.firstName}" />
+			</p:column>
+
+			<p:column headerText="Nazwisko" sortBy="#{employee.lastName}">
+				<h:outputText value="#{employee.lastName}" />
+			</p:column>
+
+			<p:column headerText="Login" sortBy="#{employee.login}">
+				<h:outputText value="#{employee.login}" />
+			</p:column>
+
+			<p:column headerText="Telefon" sortBy="#{employee.phone}">
+				<h:outputText value="#{employee.phone}" />
+			</p:column>
+
+			<p:column headerText="Pozycja" sortBy="#{employee.position}">
+				<h:outputText value="#{employee.position}" />
+			</p:column>
+
+			<p:column style="width:102px;text-align: center">
+				<h:form>
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{employeeForm.goToModify(employee)}">
+					</p:commandButton>
+					<p:commandButton id="delete" icon="ui-icon-trash"
+						action="#{employeeForm.delete(employee)}">
+					</p:commandButton>
+				</h:form>
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>

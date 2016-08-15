@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet library="css" name="main.css"></h:outputStylesheet>
+	<title><ui:insert name="title">SZUWWW</ui:insert></title>
+</h:head>
+<h:body>
+	<form method="post" action="j_security_check" class="login-form">
+		<h1>Logowanie</h1>
+		<h:panelGrid columns="2" cellpadding="5">
+			<!-- <h:outputLabel value="Użytkownik: " /> -->
+			<input type="text" id="j_username" name="j_username"
+				placeholder="user" />
+			<!-- <h:outputLabel value="hasło: " /> -->
+			<input type="password" id="j_password" name="j_password"
+				placeholder="password" />
+			<button type="submit" name="submit">Login</button>
+		</h:panelGrid>
+	</form>
+</h:body>
+</html>

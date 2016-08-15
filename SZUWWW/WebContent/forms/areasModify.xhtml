@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Nowy rejon</h1>
+		<h:form>
+			<p:panelGrid styleClass="ui-panelgrid-blank">
+				<p:row>
+					<p:column>
+						<p:outputLabel for="gmina" value="Gmina borough"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="gmina" value="#{areaForm.modifyArea.borought}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="powiat" value="Powiat district"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="powiat" value="#{areaForm.modifyArea.district}"></p:inputText>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:panelGroup>
+							<p:commandButton id="addArea" value="Dodaj"
+								action="#{areaForm.addArea}"
+								rendered="#{areaForm.modifyArea.id == 0}"></p:commandButton>
+							<p:commandButton id="modify" value="Aktualizuj"
+								action="#{areaForm.modify}"
+								rendered="#{areaForm.modifyArea.id > 0}"></p:commandButton>
+						</h:panelGroup>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

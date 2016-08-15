@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet library="css" name="main.css"></h:outputStylesheet>
+	<title><ui:insert name="title">SZUWWW</ui:insert></title>
+</h:head>
+<h:body>
+	<ui:insert name="header">
+		<div class="navbar navbar-inverse">
+			<div class="header">
+				<div class="logo">
+					<img src="#{resource['assets/logo.png']}" alt="" />
+				</div>
+				<div class="settings">
+					<div class="user">
+						<p:commandLink action="#{usersManagement.logout}" value="Wyloguj"
+							styleClass="headerlink"></p:commandLink>
+						<p:link outcome="/index" value="Pomoc" styleClass="headerlink"></p:link>
+						<p:link outcome="/index" value="Ustawienia"
+							styleClass="headerlink"></p:link>
+						<div>
+							<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+							<strong title="User">#{request.remoteUser}</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="tabsArea">
+			<div class="tabs">
+				<h:form>
+					<section>
+					<ul class="main_menu">
+						<h:panelGroup
+							rendered="#{request.isUserInRole('dyspozytor') or request.isUserInRole('bok') or request.isUserInRole('monter')}">
+							<li><b><p:link outcome="/forms/faults"
+										value="Zgłoszenia" styleClass="navlink"></p:link></b></li>
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{request.isUserInRole('bok') or request.isUserInRole('dyspozytor')}">
+							<li><b><p:link outcome="/forms/clients" value="Klienci"
+										styleClass="navlink"></p:link></b></li>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{request.isUserInRole('admin')}">
+							<li><b><p:link outcome="/forms/employees"
+										value="Pracownicy" styleClass="navlink"></p:link></b></li>
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{request.isUserInRole('admin') or request.isUserInRole('dyspozytor')}">
+							<li><b><p:link outcome="/forms/areas" value="Rejony"
+										styleClass="navlink"></p:link></b></li>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{request.isUserInRole('admin')}">
+							<li><b><p:commandLink
+										action="#{faultTypeForm.goToFaultTypes}" value="Typy usterek"
+										styleClass="navlink"></p:commandLink></b></li>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{request.isUserInRole('dyspozytor')}">
+							<li><b><p:link outcome="/index" value="Statystyki"
+										styleClass="navlink"></p:link></b></li>
+						</h:panelGroup>
+					</ul>
+					</section>
+				</h:form>
+			</div>
+		</div>
+	</ui:insert>
+	<div class="container">
+		<ui:insert name="content">Default content</ui:insert>
+	</div>
+	<ui:insert name="footer">
+		<div class="footer">&copy; copyright Mariusz Chrusciel.</div>
+	</ui:insert>
+	<ui:insert name="scripts"></ui:insert>
+
+</h:body>
+</html>

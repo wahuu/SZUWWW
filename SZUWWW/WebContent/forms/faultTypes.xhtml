@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Typy usterek</h1>
+
+		<h:form>
+			<p:inputText value="#{faultTypeForm.modifyFaultType.type}"></p:inputText>
+			<p:commandButton value="Dodaj typ usterki" icon="ui-icon-plusthick"
+				action="#{faultTypeForm.add}"
+				rendered="#{request.isUserInRole('admin') and faultTypeForm.modifyFaultType.id == 0}"></p:commandButton>
+			<p:commandButton value="Aktualizuj" icon="ui-icon-refresh"
+				action="#{faultTypeForm.modify}"
+				rendered="#{request.isUserInRole('admin') and faultTypeForm.modifyFaultType.id > 0}"></p:commandButton>
+		</h:form>
+		<p:dataTable var="faultType" value="#{faultTypeForm.allFaultTypes}">
+			<p:column headerText="Typ usterki" sortBy="#{faultType.type}">
+				<h:outputText value="#{faultType.type}" />
+			</p:column>
+
+			<p:column style="width:102px;text-align: center">
+				<h:form>
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{faultTypeForm.goToModifyFaultType(faultType)}">
+					</p:commandButton>
+					<p:commandButton id="delete" icon="ui-icon-trash"
+						action="#{faultTypeForm.delete(faultType)}">
+					</p:commandButton>
+				</h:form>
+			</p:column>
+		</p:dataTable>
+
+
+	</ui:define>
+</ui:composition>

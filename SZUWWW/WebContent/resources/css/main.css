@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+body {
+	background: #fff;
+	color: #575757;
+}
+
+span:hover {
+	cursor: pointer;
+}
+
+.container {
+	position: relative;
+}
+
+/* =================
+    Header
+================= */
+.header {
+	/* display: block;
+	color: #fff;
+	font-size: 18px;
+	margin: 7px 0;
+	padding: 0;
+	text-align: center;
+	text-shadow: 1px 1px 1px #4A4A4A;
+	background: url('#{resource['assets/pk_mini.png']}') no-repeat left;
+	background-size: contain; */
+	background-color: #14467c;
+    color: #fff;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+
+.logo {
+    float: left;
+    height: 50px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+}
+.logo img {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.settings {
+	color: #8bacc3;
+    float: right;
+    font-size: 0.75em;
+    height: 46px;
+    padding: 0 10px 0 0;
+    width: 800px;
+}
+.settings .user div, .headerlink {
+    display: block;
+    float: right;
+}
+.settings .user div {
+    padding: 4px 20px 4px 0;
+}
+.settings .user strong {
+    color: #fff;
+}
+.headerlink {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border-color: -moz-use-text-color -moz-use-text-color -moz-use-text-color #474747;
+    border-image: none;
+    border-style: none none none solid;
+    border-width: medium medium medium 1px;
+    color: #8bacc3;
+    cursor: pointer;
+    font-size: 0.9167em;
+    padding: 3px 5px;
+}
+.headerlink:hover {
+    color: #fff;
+}
+
+
+/* =================
+    Login form
+================= */
+.login-form {
+	position: relative;
+	z-index: 1;
+	background: #FFFFFF;
+	max-width: 360px;
+	margin: 150px auto 100px;
+	padding: 20px 45px 45px 45px;
+	text-align: center;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0
+		rgba(0, 0, 0, 0.24);
+}
+
+.login-form h1{
+	margin-bottom: 45px;
+}
+
+.login-form input {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+.login-form button {
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+}
+
+.login-form button:hover, .form button:active, .form button:focus {
+	background: #43A047;
+}
+
+.login-form .message {
+	margin: 15px 0 0;
+	color: #b3b3b3;
+	font-size: 12px;
+}
+
+.login-form .message a {
+	color: #4CAF50;
+	text-decoration: none;
+}
+
+.login-form .register-form {
+	display: none;
+}
+
+/* =================
+    Navbar
+================= */
+.tabsArea {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.tabs {
+    background-color: #26437e;
+    margin: 0 auto;
+    padding: 12px 14px 34px 14px;
+}
+.main_menu {
+    background-color: #26437e;
+    display: inline;
+    float: left;
+    text-align: center;
+}
+.main_menu li {
+    display: inline;
+    padding: 0 10px;
+}
+.navlink {
+    font-variant: small-caps;
+    padding: 8px;
+    text-decoration: none;
+    position: relative;
+}
+.navlink:after {
+    content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  border-bottom: 2px solid #1fbba5;
+  transition: 0.4s;
+}
+.navlink:hover{
+	text-decoration: none;
+	color: #1fbba5;
+}
+.navlink:hover:after {
+    width: 100%;
+}
+section {
+    margin: 0;
+    text-align: center;
+}
+section b {
+    display: inline-block;
+    font-size: 16px;
+    transition: all 0.2s ease 0s;
+}
+
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
