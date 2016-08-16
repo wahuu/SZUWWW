@@ -15,26 +15,35 @@
 				action="#{areaForm.goToNewArea}"
 				rendered="#{request.isUserInRole('admin')}"></p:commandButton>
 		</h:form>
-		<p:dataTable var="area" value="#{areaForm.allAreas}">
-			<p:column headerText="Gmina" sortBy="#{area.borought}">
-				<h:outputText value="#{area.borought}" />
-			</p:column>
+		<h:form>
+			<p:dataTable var="area" value="#{areaForm.allAreas}"
+				widgetVar="areasTable" emptyMessage="Nie znaleziono wyników."
+				filteredValue="#{areaForm.filteredAreas}">
 
-			<p:column headerText="Powiat" sortBy="#{area.district}">
-				<h:outputText value="#{area.district}" />
-			</p:column>
+				<p:column headerText="Gmina" sortBy="#{area.borought}"
+					filterBy="#{area.borought}" filterMatchMode="contains">
+					<h:outputText value="#{area.borought}" />
+				</p:column>
 
-			<p:column style="width:102px;text-align: center">
-				<h:form>
-					<p:commandButton id="modify" icon="ui-icon-pencil"
-						action="#{areaForm.goToModify(area)}">
-					</p:commandButton>
-					<p:commandButton id="delete" icon="ui-icon-trash"
-						action="#{areaForm.deleteArea(area)}">
-					</p:commandButton>
-				</h:form>
-			</p:column>
-		</p:dataTable>
+				<p:column headerText="Powiat" sortBy="#{area.district}"
+					filterBy="#{area.district}" filterMatchMode="contains">
+					<h:outputText value="#{area.district}" />
+				</p:column>
+
+				<p:column style="width:102px;text-align: center">
+				<f:facet name="header">
+						<p:commandButton onclick="PF('areasTable').clearFilters()"
+							icon="ui-icon-cancel" title="Wyczyść filtry"/>
+					</f:facet>
+						<p:commandButton id="modify" icon="ui-icon-pencil"
+							action="#{areaForm.goToModify(area)}" title="Edytuj">
+						</p:commandButton>
+						<p:commandButton id="delete" icon="ui-icon-trash"
+							action="#{areaForm.deleteArea(area)}" title="Usuń">
+						</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
 
 	</ui:define>
 </ui:composition>

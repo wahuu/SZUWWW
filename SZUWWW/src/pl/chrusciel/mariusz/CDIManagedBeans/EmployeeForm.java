@@ -29,6 +29,7 @@ public class EmployeeForm implements Serializable {
 
 	private Employee modifyEmployee;
 	private List<Employee> allEmployees;
+	private List<Employee> filteredEmployees;
 	private DualListModel<Area> areasModel;
 	private List<Area> allAreas;
 
@@ -39,7 +40,7 @@ public class EmployeeForm implements Serializable {
 		allAreas = areaBean.getAll();
 		initDualListModel(allAreas, new ArrayList<Area>());
 	}
-	
+
 	public void updateAllEmployees() {
 		this.allEmployees = employeesBean.getAll();
 	}
@@ -106,6 +107,14 @@ public class EmployeeForm implements Serializable {
 
 	public void setAllEmployees(List<Employee> allEmployees) {
 		this.allEmployees = allEmployees;
+	}
+
+	public List<Employee> getFilteredEmployees() {
+		return filteredEmployees;
+	}
+
+	public void setFilteredEmployees(List<Employee> filteredEmployees) {
+		this.filteredEmployees = filteredEmployees;
 	}
 
 	private void deleteRepeatedAreas(List<Area> employeeAreas) {

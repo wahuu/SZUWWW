@@ -20,6 +20,7 @@ public class AreaForm implements Serializable {
 
 	private Area modifyArea;
 	private List<Area> allAreas;
+	private List<Area> filteredAreas;
 
 	@PostConstruct
 	private void init() {
@@ -75,6 +76,14 @@ public class AreaForm implements Serializable {
 
 	public void setAllAreas(List<Area> allAreas) {
 		this.allAreas = allAreas;
+	}
+
+	public List<Area> getFilteredAreas() {
+		return filteredAreas;
+	}
+
+	public void setFilteredAreas(List<Area> filteredAreas) {
+		this.filteredAreas = filteredAreas;
 	}
 
 }
