@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!-- ui-state-default brzydki css -->
+
+
+	<ui:define name="content">
+		<h:panelGroup rendered="#{faultForm.modifyFault.id == 0}">
+			<h1>Nowe zgłoszenie</h1>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{faultForm.modifyFault.id > 0}">
+			<h1>Modyfikuj zgłoszenie</h1>
+		</h:panelGroup>
+		<h:form id="faultsForm">
+			<p:panelGrid styleClass="ui-panelgrid-blank">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Klient"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<h:panelGroup>
+							<p:outputLabel id="klient_in"
+								value="#{faultForm.selectedCustomer.firstName} #{faultForm.selectedCustomer.lastName}"></p:outputLabel>
+							<p:commandButton id="customerBtn" value="Klient" type="button"
+								style="float: right;"
+								disabled="#{faultForm.customerBtnDisabled}" />
+						</h:panelGroup>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Komentarz"
+							style="margin-right: 100px; margin-left: 200px;" />
+					</p:column>
+					<p:column rowspan="4">
+						<p:inputTextarea rows="6" cols="33"
+							value="#{faultForm.modifyFault.comment}" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Typ usterki" style="margin-right: 100px;"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="typ_usterki"
+							value="#{faultForm.modifyFault.faultType}"
+							converter="#{faultTypeConverter}" effect="fade" var="ft"
+							style="width: 250px !important"
+							disabled="#{faultForm.customerBtnDisabled}">
+							<f:selectItem itemLabel="Wybierz" />
+							<f:selectItems value="#{faultForm.allFaultTypes}" var="faultType"
+								itemLabel="#{faultType.type}" itemValue="#{faultType}" />
+							<p:column>
+								<h:outputText value="#{ft.type}" />
+							</p:column>
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+
+				<p:row
+					rendered="#{request.isUserInRole('monter') or request.isUserInRole('dyspozytor')}">
+					<p:column>
+						<p:outputLabel for="status" value="Status"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="status"
+							value="#{faultForm.modifyFault.status}" effect="fade"
+							style="width: 100% !important">
+							<f:selectItem itemLabel="Wybierz" />
+							<f:selectItems value="#{faultForm.statusList}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+
+				<p:row
+					rendered="#{request.isUserInRole('monter') or request.isUserInRole('dyspozytor')}">
+					<p:column>
+						<p:outputLabel value="Pracownik"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<h:panelGroup>
+							<p:outputLabel id="pracownik_in"
+								value="#{faultForm.selectedEmployee.firstName} #{faultForm.selectedEmployee.lastName}"></p:outputLabel>
+
+							<p:commandButton id="pracownikBtn" value="Pracownik"
+								type="button" style="float: right;"
+								disabled="#{faultForm.employeeBtnDisabled}" />
+						</h:panelGroup>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:panelGroup>
+							<p:commandButton value="Dodaj" action="#{faultForm.add}"
+								rendered="#{faultForm.modifyFault.id == 0}"></p:commandButton>
+							<p:commandButton value="Aktualizuj" action="#{faultForm.modify}"
+								rendered="#{faultForm.modifyFault.id > 0}"></p:commandButton>
+						</h:panelGroup>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+
+			<p:overlayPanel id="customerPanel" for="customerBtn"
+				hideEffect="fade" dynamic="true" style="width:700px">
+				<p:dataTable var="customer" value="#{customerForm.allCustomers}"
+					widgetVar="customersTable"
+					filteredValue="#{customerForm.filteredCustomers}"
+					emptyMessage="Nie znaleziono wyników." selectionMode="single"
+					selection="#{faultForm.selectedCustomer}" rowKey="#{customer.id}">
+
+					<p:ajax event="rowSelect" listener="#{faultForm.onCustomerSelect}"
+						update=":faultsForm:klient_in :faultsForm:pracownikBtn :faultsForm:employeePanel" />
+
+					<p:column headerText="Imie" sortBy="#{customer.firstName}"
+						filterBy="#{customer.firstName}" filterMatchMode="contains">
+						<h:outputText value="#{customer.firstName}" />
+					</p:column>
+
+					<p:column headerText="Nazwisko" sortBy="#{customer.lastName}"
+						filterBy="#{customer.lastName}" filterMatchMode="contains">
+						<h:outputText value="#{customer.lastName}" />
+					</p:column>
+
+					<p:column headerText="Adres" sortBy="#{customer.street}"
+						filterBy="#{customer.street}" filterMatchMode="contains">
+						<h:outputText value="#{customer.street}" />
+					</p:column>
+
+					<p:column headerText="Miasto" sortBy="#{customer.city}"
+						filterBy="#{customer.city}" filterMatchMode="contains">
+						<h:outputText value="#{customer.city}" />
+					</p:column>
+
+					<p:column headerText="Telefon" sortBy="#{customer.phoneNumber}"
+						filterBy="#{customer.phoneNumber}" filterMatchMode="contains">
+						<h:outputText value="#{customer.phoneNumber}" />
+					</p:column>
+
+					<p:column headerText="Numer dowodu"
+						sortBy="#{customer.identityCard}"
+						filterBy="#{customer.identityCard}" filterMatchMode="contains">
+						<h:outputText value="#{customer.identityCard}" />
+					</p:column>
+				</p:dataTable>
+			</p:overlayPanel>
+
+			<p:overlayPanel id="employeePanel" for="pracownikBtn"
+				hideEffect="fade" dynamic="true" style="width:700px">
+				<p:dataTable id="tabelaLol" var="employee"
+					value="#{faultForm.employeeList}" widgetVar="employeesTable"
+					selectionMode="single" selection="#{faultForm.selectedEmployee}"
+					rowKey="#{employee.id}">
+					<p:ajax event="rowSelect" update=":faultsForm:pracownik_in" />
+
+					<p:column headerText="Imie" sortBy="#{employee.firstName}">
+						<h:outputText value="#{employee.firstName}" />
+					</p:column>
+
+					<p:column headerText="Nazwisko" sortBy="#{employee.lastName}">
+						<h:outputText value="#{employee.lastName}" />
+					</p:column>
+
+					<p:column headerText="Telefon" sortBy="#{employee.phone}">
+						<h:outputText value="#{employee.phone}" />
+					</p:column>
+
+					<p:column headerText="Pozycja" sortBy="#{employee.position}">
+						<h:outputText value="#{employee.position}" />
+					</p:column>
+
+					<p:column headerText="Usterki w realizacji">
+								5
+							</p:column>
+				</p:dataTable>
+			</p:overlayPanel>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

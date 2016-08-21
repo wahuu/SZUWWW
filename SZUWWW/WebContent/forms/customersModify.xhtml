@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Nowy klient</h1>
+		<h:form>
+			<p:panelGrid styleClass="ui-panelgrid-blank">
+				<p:row>
+					<p:column>
+						<p:outputLabel for="imie" value="Imie"
+							style="margin-right: 100px;"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="imie"
+							value="#{customerForm.modifyCustomer.firstName}"
+							style="margin-right: 200px;"></p:inputText>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Rejon (Powiat-Gmina)"
+							style="margin-right: 100px;"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<!-- 
+						obiekty w #{customerForm.allAreas} oraz w converterze musza byc te same(referencje). lub musi byc nadpisana metoda equals zeby obiekty wskazywaly na to samo 
+						 -->
+						<p:selectOneMenu id="advanced2"
+							value="#{customerForm.modifyCustomer.area}"
+							converter="#{areaConverter}" panelStyle="width:180px"
+							effect="fade" var="a" style="width:160px">
+							<f:selectItem itemLabel="Wybierz rejon" />
+							<f:selectItems value="#{customerForm.allAreas}" var="area"
+								itemLabel="#{area.district}-#{area.borought}" itemValue="#{area}" />
+
+							<p:column>
+								<h:outputText value="#{a.district}-#{a.borought}" />
+							</p:column>
+
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="nazwisko" value="Nazwisko"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="nazwisko"
+							value="#{customerForm.modifyCustomer.lastName}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="adres" value="Adres zamieszkania (ulica)"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="adres"
+							value="#{customerForm.modifyCustomer.street}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="miasto" value="Miasto"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="miasto"
+							value="#{customerForm.modifyCustomer.city}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="telefon" value="Telefon"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="telefon"
+							value="#{customerForm.modifyCustomer.phoneNumber}"></p:inputText>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:outputLabel for="nr_dowodu" value="Numer dowodu"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="nr_dowodu"
+							value="#{customerForm.modifyCustomer.identityCard}"></p:inputText>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="3">
+						<h:panelGroup>
+							<p:commandButton value="Dodaj" action="#{customerForm.addNew}"
+								rendered="#{customerForm.modifyCustomer.id == 0}"></p:commandButton>
+							<p:commandButton value="Aktualizuj"
+								action="#{customerForm.modify}"
+								rendered="#{customerForm.modifyCustomer.id > 0}"></p:commandButton>
+						</h:panelGroup>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

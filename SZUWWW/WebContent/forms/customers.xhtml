@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Klienci</h1>
+		<h:form>
+			<p:commandButton value="Dodaj klienta" icon="ui-icon-plusthick"
+				action="#{customerForm.goToAddNew}"></p:commandButton>
+		</h:form>
+
+		<h:form>
+			<p:dataTable var="customer" value="#{customerForm.allCustomers}"
+				widgetVar="customersTable"
+				filteredValue="#{customerForm.filteredCustomers}"
+				emptyMessage="Nie znaleziono wyników.">
+
+				<p:column headerText="Imie" sortBy="#{customer.firstName}"
+					filterBy="#{customer.firstName}" filterMatchMode="contains">
+					<h:outputText value="#{customer.firstName}" />
+				</p:column>
+
+				<p:column headerText="Nazwisko" sortBy="#{customer.lastName}"
+					filterBy="#{customer.lastName}" filterMatchMode="contains">
+					<h:outputText value="#{customer.lastName}" />
+				</p:column>
+
+				<p:column headerText="Adres zamieszkania (ulica)" sortBy="#{customer.street}"
+					filterBy="#{customer.street}" filterMatchMode="contains">
+					<h:outputText value="#{customer.street}" />
+				</p:column>
+
+				<p:column headerText="Miasto" sortBy="#{customer.city}"
+					filterBy="#{customer.city}" filterMatchMode="contains">
+					<h:outputText value="#{customer.city}" />
+				</p:column>
+
+				<p:column headerText="Telefon" sortBy="#{customer.phoneNumber}"
+					filterBy="#{customer.phoneNumber}" filterMatchMode="contains">
+					<h:outputText value="#{customer.phoneNumber}" />
+				</p:column>
+
+				<p:column headerText="Numer dowodu"
+					sortBy="#{customer.identityCard}"
+					filterBy="#{customer.identityCard}" filterMatchMode="contains">
+					<h:outputText value="#{customer.identityCard}" />
+				</p:column>
+
+				<p:column style="width:102px;text-align: center">
+					<f:facet name="header">
+						<p:commandButton onclick="PF('customersTable').clearFilters()"
+							icon="ui-icon-cancel" title="Wyczyść filtry" />
+					</f:facet>
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{customerForm.goToModify(customer)}" title="Edytuj">
+					</p:commandButton>
+					<p:commandButton id="delete" icon="ui-icon-trash"
+						action="#{customerForm.delete(customer)}" title="Usuń">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

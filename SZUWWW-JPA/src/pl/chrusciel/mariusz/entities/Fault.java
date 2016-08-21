@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Fault implements Serializable{
+public class Fault implements Serializable {
 	@GeneratedValue
 	@Id
 	private int id;
@@ -104,6 +104,28 @@ public class Fault implements Serializable{
 
 	public void setFaultType(FaultType faultType) {
 		this.faultType = faultType;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Fault other = (Fault) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

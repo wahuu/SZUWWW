@@ -30,7 +30,7 @@
 					<h:outputText value="#{area.district}" />
 				</p:column>
 
-				<p:column style="width:102px;text-align: center">
+				<p:column style="width:102px;text-align: center" rendered="#{request.isUserInRole('admin')}">
 				<f:facet name="header">
 						<p:commandButton onclick="PF('areasTable').clearFilters()"
 							icon="ui-icon-cancel" title="Wyczyść filtry"/>

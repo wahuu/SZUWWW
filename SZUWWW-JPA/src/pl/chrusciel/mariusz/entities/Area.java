@@ -74,4 +74,38 @@ public class Area implements Serializable {
 		this.customer = customer;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((borought == null) ? 0 : borought.hashCode());
+		result = prime * result + ((district == null) ? 0 : district.hashCode());
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Area other = (Area) obj;
+		if (borought == null) {
+			if (other.borought != null)
+				return false;
+		} else if (!borought.equals(other.borought))
+			return false;
+		if (district == null) {
+			if (other.district != null)
+				return false;
+		} else if (!district.equals(other.district))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 }

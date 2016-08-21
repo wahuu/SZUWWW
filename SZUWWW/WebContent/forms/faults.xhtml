@@ -11,6 +11,92 @@
 	<ui:define name="content">
 		<h1>Zgłoszenia</h1>
 
-		
+		<h:form>
+			<p:commandButton value="Dodaj zgłoszenie" icon="ui-icon-plusthick"
+				action="#{faultForm.goToNew}" rendered="#{request.isUserInRole('bok') or request.isUserInRole('dyspozytor')}"></p:commandButton>
+		</h:form>
+		<h:form id="form">
+			<p:dataTable var="fault" value="#{faultForm.allFaults}"
+				widgetVar="faultsTable" emptyMessage="Nie znaleziono wyników."
+				filteredValue="#{faultForm.filteredFaults}" sortBy="#{fault.filingDate}" sortOrder="descending">
+
+				<p:column headerText="Id" sortBy="#{fault.id}"
+					filterBy="#{fault.id}" filterMatchMode="contains">
+					<h:outputText value="#{fault.id}" />
+				</p:column>
+
+				<p:column headerText="Imie" sortBy="#{fault.customer.firstName}"
+					filterBy="#{fault.customer.firstName}" filterMatchMode="contains">
+					<h:outputText value="#{fault.customer.firstName}" />
+				</p:column>
+
+				<p:column headerText="Nazwisko" sortBy="#{fault.customer.lastName}"
+					filterBy="#{fault.customer.lastName}" filterMatchMode="contains">
+					<h:outputText value="#{fault.customer.lastName}" />
+				</p:column>
+
+				<p:column headerText="Typ usterki" sortBy="#{fault.faultType.type}"
+					filterBy="#{fault.faultType.type}" filterMatchMode="contains">
+					<h:outputText value="#{fault.faultType.type}" />
+				</p:column>
+
+				<p:column headerText="Data zgłoszenia" sortBy="#{fault.filingDate}"
+					filterBy="#{fault.filingDate}" filterMatchMode="contains">
+					<h:outputText value="#{fault.filingDate}" />
+				</p:column>
+
+				<p:column headerText="Status" sortBy="#{fault.status}"
+					filterBy="#{fault.status}" filterMatchMode="contains">
+					<h:outputText value="#{fault.status}" />
+				</p:column>
+
+				<p:column headerText="Data wykonania" sortBy="#{fault.endDate}"
+					filterBy="#{fault.endDate}" filterMatchMode="contains">
+					<h:outputText value="#{fault.endDate}" />
+				</p:column>
+
+				<p:column headerText="Pracownik" sortBy="#{fault.employee.id}"
+					filterBy="#{fault.employee.id}" filterMatchMode="contains">
+					<h:outputText
+						value="#{fault.employee.firstName} #{fault.employee.lastName}" />
+				</p:column>
+
+
+				<p:column style="text-align: center">
+					<f:facet name="header">
+						<p:commandButton onclick="PF('faultsTable').clearFilters()"
+							icon="ui-icon-cancel" title="Wyczyść filtry" />
+					</f:facet>
+					<p:commandButton icon="ui-icon-zoomin" update=":form:faultDetail"
+						oncomplete="PF('faultDialog').show();" title="Sczegóły">
+						<f:setPropertyActionListener value="#{fault}"
+							target="#{faultForm.dialogFault}" />
+					</p:commandButton>
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{faultForm.goToModify(fault)}" title="Edytuj"
+						rendered="#{request.isUserInRole('monter') or request.isUserInRole('dyspozytor')}">
+					</p:commandButton>
+					<p:commandButton id="delete" icon="ui-icon-trash"
+						action="#{faultForm.delete(fault)}" title="Usuń"
+						rendered="#{request.isUserInRole('dyspozytor')}">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Info" widgetVar="faultDialog" modal="true"
+				height="200">
+				<p:outputPanel id="faultDetail" style="text-align:center;">
+					<p:panelGrid rendered="#{not empty faultForm.dialogFault}">
+						<h:outputLabel value="Id:" />
+						<h:outputText value="#{faultForm.dialogFault.id}" />
+						<h:outputLabel value="Imie" />
+						<h:outputText value="#{faultForm.dialogFault.customer.firstName}" />
+						<h:outputLabel value="Nazwisko" />
+						<h:outputText value="#{faultForm.dialogFault.customer.lastName}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
 	</ui:define>
 </ui:composition>

@@ -2,6 +2,7 @@ package pl.chrusciel.mariusz.ejb;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class CustomersBeanImpl implements CustomersBean {
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Override
 	public void customerTest() {
 		Area area = new Area("gmina", "powiat");
@@ -33,23 +34,44 @@ public class CustomersBeanImpl implements CustomersBean {
 		customer.setArea(area);
 		em.persist(area);
 		em.persist(customer);
-		
-		
+
 		Employee employee = new Employee("imie", "nazwisko", "login", "haslo", "tel", "dyspozytor");
 		employee.setAreas(Arrays.asList(area));
 		em.persist(employee);
 		System.err.println("");
-		
+
 		FaultType faultType = new FaultType("typ");
 		em.persist(faultType);
-		
+
 		Fault fault = new Fault("OK", new Date(), new Date(), "");
 		fault.setFaultType(faultType);
 		fault.setCustomer(customer);
 		fault.setEmployee(employee);
-		
+
 		em.persist(fault);
-		
+
+	}
+
+	@Override
+	public void add(Customer customer) {
+		em.persist(customer);
+	}
+
+	@Override
+	public void delete(Customer customer) {
+		customer = em.merge(customer);
+		em.remove(customer);
+	}
+
+	@Override
+	public List<Customer> getAll() {
+		List<Customer> resultList = em.createQuery("SELECT c from Customer c", Customer.class).getResultList();
+		return resultList;
+	}
+
+	@Override
+	public void update(Customer customer) {
+		em.merge(customer);
 	}
 
 }

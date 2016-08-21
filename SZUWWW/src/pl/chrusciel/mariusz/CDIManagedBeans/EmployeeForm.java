@@ -41,7 +41,7 @@ public class EmployeeForm implements Serializable {
 		initDualListModel(allAreas, new ArrayList<Area>());
 	}
 
-	public void updateAllEmployees() {
+	private void updateAllEmployees() {
 		this.allEmployees = employeesBean.getAll();
 	}
 
