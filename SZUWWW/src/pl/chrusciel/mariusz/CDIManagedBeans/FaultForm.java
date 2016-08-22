@@ -59,8 +59,14 @@ public class FaultForm implements Serializable {
 		this.modifyFault = new Fault();
 		updateAllFaults();
 		this.allFaultTypes = faultTypeBean.getAll();
-		this.statusList = new ArrayList<String>(Arrays.asList(Status.ZGLOSZONE.toString(), Status.PRZYPISANE.toString(),
-				Status.WREALIZACJI.toString(), Status.ZAMKNIETE.toString()));
+		boolean userInRole = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("monter");
+		if (userInRole) {
+			this.statusList = new ArrayList<String>(Arrays.asList(Status.PRZYPISANE.toString(),
+					Status.WREALIZACJI.toString(), Status.ZAMKNIETE.toString()));
+		} else {
+			this.statusList = new ArrayList<String>(Arrays.asList(Status.ZGLOSZONE.toString(),
+					Status.PRZYPISANE.toString(), Status.WREALIZACJI.toString(), Status.ZAMKNIETE.toString()));
+		}
 	}
 
 	public void updateAllFaults() {

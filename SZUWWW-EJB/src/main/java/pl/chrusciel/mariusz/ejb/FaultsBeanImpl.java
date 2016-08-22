@@ -1,5 +1,6 @@
 package pl.chrusciel.mariusz.ejb;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -9,13 +10,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import pl.chrusciel.mariusz.entities.Fault;
+import pl.chrusciel.mariusz.helper.Status;
 
 @Named
 @Stateless
 public class FaultsBeanImpl implements FaultsBean {
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Override
 	public void add(Fault fault) {
 		em.persist(fault);
@@ -32,12 +34,18 @@ public class FaultsBeanImpl implements FaultsBean {
 		List<Fault> resultList = em.createQuery("SELECT f from Fault f", Fault.class).getResultList();
 		return resultList;
 	}
-	
+
 	/**
-	 * TODO Dodac sprawdzenie statusu czy zakonczone - wtedy zmienic endDate
+	 * Update zgloszenia z sprawdzeniem statusu czy zakonczone - zmiana dany
+	 * endDate
 	 */
 	@Override
 	public void update(Fault fault) {
+		if (Status.ZAMKNIETE.toString().equals(fault.getStatus()) && fault.getEndDate() == null) {
+			fault.setEndDate(Calendar.getInstance().getTime());
+		} else if (!Status.ZAMKNIETE.toString().equals(fault.getStatus()) && fault.getEndDate() != null) {
+			fault.setEndDate(null);
+		}
 		em.merge(fault);
 	}
 
