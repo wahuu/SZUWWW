@@ -1,9 +1,12 @@
 package pl.chrusciel.mariusz.CDIManagedBeans;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,8 +14,22 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.event.SelectEvent;
+
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import pl.chrusciel.mariusz.ejb.CommentsBean;
 import pl.chrusciel.mariusz.ejb.EmployeesBean;
@@ -154,6 +171,93 @@ public class FaultForm implements Serializable {
 		faultsBean.delete(fault);
 		updateAllFaults();
 		return "/forms/faults.xhtml?faces-redirect=true";
+	}
+
+	public void generateRaport() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.setContentType("application/pdf");
+		response.setHeader("Content-disposition", "attachment; filename=mycool.pdf");
+
+		try {
+			Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+			Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
+			Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+			Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+			Document document = new Document();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.addTitle("Raport usterki: " + this.dialogFault.getId());
+			Paragraph preface = new Paragraph();
+			preface.add(new Paragraph(" "));
+			preface.add(new Paragraph("Raport usterki: " + this.dialogFault.getId(), catFont));
+
+			preface.add(new Paragraph(" "));
+			preface.add(new Paragraph("Report wygenerowany : " + new Date(), smallBold));
+
+			preface.add(new Paragraph(" "));
+			preface.add(new Paragraph(" "));
+			preface.add(new Paragraph(" "));
+
+			document.add(preface);
+
+			PdfPTable table = new PdfPTable(2);
+
+			table.addCell("Id: ");
+			table.addCell(String.valueOf(this.dialogFault.getId()));
+			table.addCell("Typ Usterki: ");
+			table.addCell(this.dialogFault.getFaultType().getType());
+			table.addCell("Data zgłoszenia: ");
+			table.addCell(new Date().toString());
+			table.addCell("Status: ");
+			table.addCell(this.dialogFault.getStatus());
+
+			document.add(table);
+			document.add(new Paragraph(" "));
+			document.add(new Paragraph(" "));
+
+			table = new PdfPTable(2);
+
+			table.addCell("Imie: ");
+			table.addCell(this.dialogFault.getCustomer().getFirstName());
+			table.addCell("Nazwisko: ");
+			table.addCell(this.dialogFault.getCustomer().getLastName());
+			table.addCell("Adres: ");
+			table.addCell(this.dialogFault.getCustomer().getStreet());
+			table.addCell("Miasto: ");
+			table.addCell(this.dialogFault.getCustomer().getCity());
+			table.addCell("Telefon: ");
+			table.addCell(this.dialogFault.getCustomer().getPhoneNumber());
+
+			document.add(table);
+			
+			document.add(new Paragraph(" "));
+			document.add(new Paragraph(" "));
+
+			Paragraph paragraph = new Paragraph("__________________________");
+			paragraph.setAlignment(Element.ALIGN_RIGHT);
+			document.add(paragraph);
+			Paragraph paragraph2 = new Paragraph("Podpis");
+			paragraph2.setAlignment(Element.ALIGN_RIGHT);
+			document.add(paragraph2);
+
+			document.close();
+
+			// setting the content type
+			response.setContentType("application/pdf");
+			// the contentlength
+			response.setContentLength(baos.size());
+			// write ByteArrayOutputStream to the ServletOutputStream
+			OutputStream os = response.getOutputStream();
+			baos.writeTo(os);
+			os.flush();
+			os.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		context.responseComplete();
 	}
 
 	public void onCustomerSelect(SelectEvent event) {

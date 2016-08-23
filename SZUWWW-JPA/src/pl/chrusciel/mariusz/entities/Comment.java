@@ -1,13 +1,12 @@
 package pl.chrusciel.mariusz.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -19,6 +18,7 @@ public class Comment implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
+	private Date date;
 
 	public Comment() {
 		super();
@@ -52,6 +52,14 @@ public class Comment implements Serializable {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	@Override

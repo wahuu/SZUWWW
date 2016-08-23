@@ -85,44 +85,105 @@
 				</p:column>
 			</p:dataTable>
 
-			<p:dialog header="Info" widgetVar="faultDialog" modal="true"
-				height="200">
+			<p:dialog header="Szczegóły zgłoszenia" widgetVar="faultDialog" modal="true" resizable="false">
 				<p:outputPanel id="faultDetail" style="text-align:center;">
-					<p:panelGrid>
+					<p:panelGrid style="width: 800px;" styleClass="ui-panelgrid-blank">
 						<p:row>
-							<p:column>
-							Id:
+							<p:column style="width: 200px; text-align: left;">
+							<p:outputLabel value="Id:"/>
 						</p:column>
-							<p:column>
+							<p:column style="width: 200px; text-align: left;">
 								<h:outputText value="#{faultForm.dialogFault.id}" />
 							</p:column>
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Imie:"/>
+						</p:column>
+							<p:column style="text-align: left;">
+								<h:outputText
+									value="#{faultForm.dialogFault.customer.firstName}" />
+							</p:column>
 						</p:row>
 						<p:row>
-							<p:column>
-							Typ usterki:
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Typ usterki:"/>
 						</p:column>
-							<p:column>
+							<p:column style="text-align: left;">
 								<h:outputText value="#{faultForm.dialogFault.faultType.type}" />
 							</p:column>
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Nazwisko:"/>
+						</p:column>
+							<p:column style="text-align: left;">
+								<h:outputText value="#{faultForm.dialogFault.customer.lastName}" />
+							</p:column>
 						</p:row>
 						<p:row>
-							<p:column>
-							Data zgłoszenia:
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Data zgłoszenia:"/>
 						</p:column>
-							<p:column>
+							<p:column style="text-align: left;">
 								<h:outputText value="#{faultForm.dialogFault.filingDate}" />
 							</p:column>
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Adres:"/>
+						</p:column>
+							<p:column style="text-align: left;">
+								<h:outputText value="#{faultForm.dialogFault.customer.street}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Status:"/>
+						</p:column>
+							<p:column style="text-align: left;">
+								<h:outputText value="#{faultForm.dialogFault.status}" />
+							</p:column>
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Miasto:"/>
+						</p:column>
+							<p:column style="text-align: left;">
+								<h:outputText value="#{faultForm.dialogFault.customer.city}" />
+							</p:column>
 						</p:row>
 						<p:row>
 							<p:column>
-							Status:
-						</p:column>
+							</p:column>
 							<p:column>
-								<h:outputText value="#{faultForm.dialogFault.status}" />
+							</p:column>
+							<p:column style="text-align: left;">
+							<p:outputLabel value="Telefon:"/>
+						</p:column>
+							<p:column style="text-align: left;">
+								<h:outputText
+									value="#{faultForm.dialogFault.customer.phoneNumber}" />
 							</p:column>
 						</p:row>
+						<p:row>
+							<p:column style="text-align: left">
+							<p:commandButton ajax="false" icon="ui-icon-disk" title="Generuj raport" value="Generuj raport" action="#{faultForm.generateRaport}">
+								</p:commandButton>
+							</p:column>
+							
+						</p:row>
 					</p:panelGrid>
+					<!-- <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+						<p:outputLabel value="Komentarz" />
+						<p:inputTextarea rows="3" cols="25" />
+					</p:panelGrid> -->
 
+					<p:dataTable var="comment" value="#{faultForm.dialogFault.comments}" style="width: 800px;">
+						<p:column headerText="Użytkownik" style="width: 200px;">
+							<h:outputText value="#{comment.employee.firstName} #{comment.employee.lastName} (#{comment.employee.position})" />
+						</p:column>
+
+						<p:column headerText="Data" style="width: 200px;">
+							<h:outputText value="#{comment.date}" />
+						</p:column>
+
+						<p:column headerText="Komentarz">
+							<h:outputText value="#{comment.comment}" />
+						</p:column>
+					</p:dataTable>
 
 				</p:outputPanel>
 			</p:dialog>
