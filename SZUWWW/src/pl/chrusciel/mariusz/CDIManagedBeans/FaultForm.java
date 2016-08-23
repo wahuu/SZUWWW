@@ -14,9 +14,11 @@ import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 
+import pl.chrusciel.mariusz.ejb.CommentsBean;
 import pl.chrusciel.mariusz.ejb.EmployeesBean;
 import pl.chrusciel.mariusz.ejb.FaultTypeBean;
 import pl.chrusciel.mariusz.ejb.FaultsBean;
+import pl.chrusciel.mariusz.entities.Comment;
 import pl.chrusciel.mariusz.entities.Customer;
 import pl.chrusciel.mariusz.entities.Employee;
 import pl.chrusciel.mariusz.entities.Fault;
@@ -39,12 +41,17 @@ public class FaultForm implements Serializable {
 	@Inject
 	private EmployeesBean employeesBean;
 
+	@Inject
+	private CommentsBean commentsBean;
+
 	private Fault modifyFault;
 	private List<Fault> allFaults;
 	private List<Fault> filteredFaults;
 	private List<FaultType> allFaultTypes;
 	private Customer selectedCustomer;
 	private Employee selectedEmployee;
+	private Comment comment;
+
 	/**
 	 * Lista Employee tylko dla rejonu wybranego klienta onSelectCustomer
 	 */
@@ -59,6 +66,7 @@ public class FaultForm implements Serializable {
 		this.modifyFault = new Fault();
 		updateAllFaults();
 		this.allFaultTypes = faultTypeBean.getAll();
+		comment = new Comment();
 		boolean userInRole = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("monter");
 		if (userInRole) {
 			this.statusList = new ArrayList<String>(Arrays.asList(Status.PRZYPISANE.toString(),
@@ -81,6 +89,7 @@ public class FaultForm implements Serializable {
 
 	public String goToNew() {
 		modifyFault = new Fault();
+		comment = new Comment();
 		updateAllFaults();
 		this.employeeBtnDisabled = true;
 		this.customerBtnDisabled = false;
@@ -90,6 +99,8 @@ public class FaultForm implements Serializable {
 	}
 
 	public String add() {
+		validateComment();
+
 		this.modifyFault.setFilingDate(Calendar.getInstance().getTime());
 		if (selectedCustomer != null)
 			this.modifyFault.setCustomer(selectedCustomer);
@@ -103,8 +114,22 @@ public class FaultForm implements Serializable {
 		return "/forms/faults.xhtml?faces-redirect=true";
 	}
 
+	private void validateComment() {
+		if (this.comment.getComment() != null && !"".equals(this.comment.getComment().trim())) {
+			this.comment.setEmployee(
+					employeesBean.getByLogin(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
+			this.comment = commentsBean.add(comment);
+			if (this.modifyFault.getComments() != null) {
+				this.modifyFault.getComments().add(this.comment);
+			} else {
+				this.modifyFault.setComments(new ArrayList<Comment>(Arrays.asList(this.comment)));
+			}
+		}
+	}
+
 	public String goToModify(Fault fault) {
 		this.modifyFault = fault;
+		comment = new Comment();
 		this.selectedCustomer = fault.getCustomer();
 		this.selectedEmployee = fault.getEmployee();
 		this.customerBtnDisabled = true;
@@ -114,6 +139,8 @@ public class FaultForm implements Serializable {
 	}
 
 	public String modify() {
+		validateComment();
+
 		if (selectedCustomer != null)
 			this.modifyFault.setCustomer(selectedCustomer);
 		if (selectedEmployee != null)
@@ -221,6 +248,14 @@ public class FaultForm implements Serializable {
 
 	public void setDialogFault(Fault dialogFault) {
 		this.dialogFault = dialogFault;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
 	}
 
 }

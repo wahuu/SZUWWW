@@ -28,31 +28,6 @@ public class CustomersBeanImpl implements CustomersBean {
 	private EntityManager em;
 
 	@Override
-	public void customerTest() {
-		Area area = new Area("gmina", "powiat");
-		Customer customer = new Customer("imie", "Nazwisko", "ulica", "city", "23123", "ASB324234");
-		customer.setArea(area);
-		em.persist(area);
-		em.persist(customer);
-
-		Employee employee = new Employee("imie", "nazwisko", "login", "haslo", "tel", "dyspozytor");
-		employee.setAreas(Arrays.asList(area));
-		em.persist(employee);
-		System.err.println("");
-
-		FaultType faultType = new FaultType("typ");
-		em.persist(faultType);
-
-		Fault fault = new Fault("OK", new Date(), new Date(), "");
-		fault.setFaultType(faultType);
-		fault.setCustomer(customer);
-		fault.setEmployee(employee);
-
-		em.persist(fault);
-
-	}
-
-	@Override
 	public void add(Customer customer) {
 		em.persist(customer);
 	}

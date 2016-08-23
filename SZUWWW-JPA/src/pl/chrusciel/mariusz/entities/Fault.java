@@ -2,12 +2,14 @@ package pl.chrusciel.mariusz.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -18,7 +20,6 @@ public class Fault implements Serializable {
 	private String status;
 	private Date filingDate;
 	private Date endDate;
-	private String comment;
 	@OneToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
@@ -28,18 +29,20 @@ public class Fault implements Serializable {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "faultType_id")
 	private FaultType faultType;
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fault_id")
+	private List<Comment> comments;
 
 	public Fault() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Fault(String status, Date filingDate, Date endDate, String comment) {
+	public Fault(String status, Date filingDate, Date endDate) {
 		super();
 		this.status = status;
 		this.filingDate = filingDate;
 		this.endDate = endDate;
-		this.comment = comment;
 	}
 
 	public int getId() {
@@ -74,14 +77,6 @@ public class Fault implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -104,6 +99,14 @@ public class Fault implements Serializable {
 
 	public void setFaultType(FaultType faultType) {
 		this.faultType = faultType;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

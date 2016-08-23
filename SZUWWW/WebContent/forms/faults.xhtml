@@ -13,12 +13,14 @@
 
 		<h:form>
 			<p:commandButton value="Dodaj zgłoszenie" icon="ui-icon-plusthick"
-				action="#{faultForm.goToNew}" rendered="#{request.isUserInRole('bok') or request.isUserInRole('dyspozytor')}"></p:commandButton>
+				action="#{faultForm.goToNew}"
+				rendered="#{request.isUserInRole('bok') or request.isUserInRole('dyspozytor')}"></p:commandButton>
 		</h:form>
 		<h:form id="form">
 			<p:dataTable var="fault" value="#{faultForm.allFaults}"
 				widgetVar="faultsTable" emptyMessage="Nie znaleziono wyników."
-				filteredValue="#{faultForm.filteredFaults}" sortBy="#{fault.filingDate}" sortOrder="descending">
+				filteredValue="#{faultForm.filteredFaults}"
+				sortBy="#{fault.filingDate}" sortOrder="descending">
 
 				<p:column headerText="Id" sortBy="#{fault.id}"
 					filterBy="#{fault.id}" filterMatchMode="contains">
@@ -86,14 +88,42 @@
 			<p:dialog header="Info" widgetVar="faultDialog" modal="true"
 				height="200">
 				<p:outputPanel id="faultDetail" style="text-align:center;">
-					<p:panelGrid rendered="#{not empty faultForm.dialogFault}">
-						<h:outputLabel value="Id:" />
-						<h:outputText value="#{faultForm.dialogFault.id}" />
-						<h:outputLabel value="Imie" />
-						<h:outputText value="#{faultForm.dialogFault.customer.firstName}" />
-						<h:outputLabel value="Nazwisko" />
-						<h:outputText value="#{faultForm.dialogFault.customer.lastName}" />
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+							Id:
+						</p:column>
+							<p:column>
+								<h:outputText value="#{faultForm.dialogFault.id}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+							Typ usterki:
+						</p:column>
+							<p:column>
+								<h:outputText value="#{faultForm.dialogFault.faultType.type}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+							Data zgłoszenia:
+						</p:column>
+							<p:column>
+								<h:outputText value="#{faultForm.dialogFault.filingDate}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+							Status:
+						</p:column>
+							<p:column>
+								<h:outputText value="#{faultForm.dialogFault.status}" />
+							</p:column>
+						</p:row>
 					</p:panelGrid>
+
+
 				</p:outputPanel>
 			</p:dialog>
 		</h:form>

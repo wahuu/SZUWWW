@@ -15,4 +15,6 @@ public interface EmployeesBean {
 	public void update(Employee employee);
 
 	public List<Employee> getByArea(Area area);
+	
+	public Employee getByLogin(String login);
 }

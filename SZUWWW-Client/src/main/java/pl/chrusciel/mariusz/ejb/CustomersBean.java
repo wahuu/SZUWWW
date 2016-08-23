@@ -16,5 +16,4 @@ public interface CustomersBean {
 
 	public void update(Customer customer);
 
-	public void customerTest();
 }

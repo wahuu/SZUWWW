@@ -45,9 +45,17 @@ public class EmployeesBeanImpl implements EmployeesBean {
 
 	@Override
 	public List<Employee> getByArea(Area area) {
-		TypedQuery<Employee> query = em.createQuery("Select e from Employee e inner join e.areas a where a = :area", Employee.class);
+		TypedQuery<Employee> query = em.createQuery("Select e from Employee e inner join e.areas a where a = :area",
+				Employee.class);
 		query.setParameter("area", area);
 		return query.getResultList();
+	}
+
+	@Override
+	public Employee getByLogin(String login) {
+		TypedQuery<Employee> query = em.createQuery("Select e from Employee e where e.login = :login", Employee.class);
+		query.setParameter("login", login);
+		return query.getSingleResult();
 	}
 
 }
