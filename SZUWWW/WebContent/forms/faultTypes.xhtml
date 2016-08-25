@@ -10,9 +10,10 @@
 
 	<ui:define name="content">
 		<h1>Typy usterek</h1>
+		<hr/>
 
 		<h:form>
-			<p:inputText value="#{faultTypeForm.modifyFaultType.type}"></p:inputText>
+			<p:inputText value="#{faultTypeForm.modifyFaultType.type}" placeholder="Typ usterki"></p:inputText>
 			<p:commandButton value="Dodaj typ usterki" icon="ui-icon-plusthick"
 				action="#{faultTypeForm.add}"
 				rendered="#{request.isUserInRole('admin') and faultTypeForm.modifyFaultType.id == 0}"></p:commandButton>

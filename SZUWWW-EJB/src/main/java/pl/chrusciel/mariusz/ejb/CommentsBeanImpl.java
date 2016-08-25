@@ -1,5 +1,6 @@
 package pl.chrusciel.mariusz.ejb;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -19,6 +20,7 @@ public class CommentsBeanImpl implements CommentsBean {
 
 	@Override
 	public Comment add(Comment comment) {
+		comment.setDate(Calendar.getInstance().getTime());
 		em.persist(comment);
 		return comment;
 	}

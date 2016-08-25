@@ -6,9 +6,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import pl.chrusciel.mariusz.entities.Employee;
 import pl.chrusciel.mariusz.entities.Fault;
 import pl.chrusciel.mariusz.helper.Status;
 
@@ -51,8 +53,19 @@ public class FaultsBeanImpl implements FaultsBean {
 
 	@Override
 	public List<Fault> getByStatus(List<String> statusList) {
-		TypedQuery<Fault> query = em.createQuery("Select f from Fault f where f.status in :status", Fault.class);
+		TypedQuery<Fault> query = em.createQuery("Select f from Fault f where f.status in :status order by f.id desc", Fault.class);
 		query.setParameter("status", statusList);
+		query.setMaxResults(3);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Fault> getByStatusAndEmployee(List<String> statusList, Employee employee) {
+		TypedQuery<Fault> query = em
+				.createQuery("Select f from Fault f where f.status in :status and f.employee = :employee order by f.id desc", Fault.class);
+		query.setParameter("status", statusList);
+		query.setParameter("employee", employee);
+		query.setMaxResults(2);
 		return query.getResultList();
 	}
 

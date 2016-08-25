@@ -9,7 +9,12 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
-		<h1>Nowy klient</h1>
+		<h:panelGroup rendered="#{customerForm.modifyCustomer.id == 0}">
+			<h1>Nowy klient</h1>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{customerForm.modifyCustomer.id > 0}">
+			<h1>Modyfikuj dane klienta</h1>
+		</h:panelGroup>
 		<h:form>
 			<p:panelGrid styleClass="ui-panelgrid-blank">
 				<p:row>

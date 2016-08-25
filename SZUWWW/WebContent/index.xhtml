@@ -9,10 +9,171 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
-		<h1>Dashboard</h1>
+		<h1>Panel główny</h1>
+		<hr />
 
+		<h:panelGroup rendered="#{request.isUserInRole('monter')}">
+			<h2>Ostatnie zgłoszenia 'W realizacji'</h2>
+			<p:dataTable
+				value="#{faultForm.lastFaultsByStatusAndEmployee('W realizacji')}"
+				var="fault" emptyMessage="Nie znaleziono wyników.">
+				<p:column headerText="Id">
+					<h:outputText value="#{fault.id}" />
+				</p:column>
+
+				<p:column headerText="Imie">
+					<h:outputText value="#{fault.customer.firstName}" />
+				</p:column>
+
+				<p:column headerText="Nazwisko">
+					<h:outputText value="#{fault.customer.lastName}" />
+				</p:column>
+
+				<p:column headerText="Typ usterki">
+					<h:outputText value="#{fault.faultType.type}" />
+				</p:column>
+
+				<p:column headerText="Data zgłoszenia">
+					<h:outputText value="#{fault.filingDate}" />
+				</p:column>
+
+				<p:column headerText="Status">
+					<h:outputText value="#{fault.status}" />
+				</p:column>
+
+				<p:column headerText="Data wykonania">
+					<h:outputText value="#{fault.endDate}" />
+				</p:column>
+
+				<p:column headerText="Pracownik">
+					<h:outputText
+						value="#{fault.employee.firstName} #{fault.employee.lastName}" />
+				</p:column>
+
+				<p:column style="text-align: center">
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{faultForm.goToModify(fault)}" title="Edytuj">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<h2>Ostatnie przypisane</h2>
+			<p:dataTable
+				value="#{faultForm.lastFaultsByStatusAndEmployee('Przypisane')}"
+				var="fault" emptyMessage="Nie znaleziono wyników.">
+				<p:column headerText="Id">
+					<h:outputText value="#{fault.id}" />
+				</p:column>
+
+				<p:column headerText="Imie">
+					<h:outputText value="#{fault.customer.firstName}" />
+				</p:column>
+
+				<p:column headerText="Nazwisko">
+					<h:outputText value="#{fault.customer.lastName}" />
+				</p:column>
+
+				<p:column headerText="Typ usterki">
+					<h:outputText value="#{fault.faultType.type}" />
+				</p:column>
+
+				<p:column headerText="Data zgłoszenia">
+					<h:outputText value="#{fault.filingDate}" />
+				</p:column>
+
+				<p:column headerText="Status">
+					<h:outputText value="#{fault.status}" />
+				</p:column>
+
+				<p:column headerText="Data wykonania">
+					<h:outputText value="#{fault.endDate}" />
+				</p:column>
+
+				<p:column headerText="Pracownik">
+					<h:outputText
+						value="#{fault.employee.firstName} #{fault.employee.lastName}" />
+				</p:column>
+
+				<p:column style="text-align: center">
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{faultForm.goToModify(fault)}" title="Edytuj">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{request.isUserInRole('dyspozytor')}">
+			<h2>Ostatnie zgłoszenia 'W realizacji'</h2>
+			<p:dataTable
+				value="#{faultForm.lastFaultsByStatusAndEmployee('Zgłoszone')}"
+				var="fault" emptyMessage="Nie znaleziono wyników.">
+				<p:column headerText="Id">
+					<h:outputText value="#{fault.id}" />
+				</p:column>
+
+				<p:column headerText="Imie">
+					<h:outputText value="#{fault.customer.firstName}" />
+				</p:column>
+
+				<p:column headerText="Nazwisko">
+					<h:outputText value="#{fault.customer.lastName}" />
+				</p:column>
+
+				<p:column headerText="Typ usterki">
+					<h:outputText value="#{fault.faultType.type}" />
+				</p:column>
+
+				<p:column headerText="Data zgłoszenia">
+					<h:outputText value="#{fault.filingDate}" />
+				</p:column>
+
+				<p:column headerText="Status">
+					<h:outputText value="#{fault.status}" />
+				</p:column>
+
+				<p:column headerText="Data wykonania">
+					<h:outputText value="#{fault.endDate}" />
+				</p:column>
+
+				<p:column headerText="Pracownik">
+					<h:outputText
+						value="#{fault.employee.firstName} #{fault.employee.lastName}" />
+				</p:column>
+
+				<p:column style="text-align: center">
+					<p:commandButton id="modify" icon="ui-icon-pencil"
+						action="#{faultForm.goToModify(fault)}" title="Edytuj">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+
+		<h2>Ostatnie wiadomości</h2>
 		<h:form>
-			<p:editor value="asb" />
+			<p:commandButton id="infoBtn" value="Dodaj wiadomość"
+				icon="ui-icon-plusthick"
+				rendered="#{request.isUserInRole('admin') or request.isUserInRole('dyspozytor')}"
+				type="button"></p:commandButton>
+			<p:overlayPanel id="infoPanel" for="infoBtn" hideEffect="fade"
+				dynamic="true">
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					<p:inputTextarea rows="4" cols="25"
+						value="#{dashboardForm.information}" />
+					<p:commandButton value="Dodaj" action="#{dashboardForm.add}"
+						update="infoList"></p:commandButton>
+				</p:panelGrid>
+			</p:overlayPanel>
+
 		</h:form>
+		<h:panelGroup id="infoList">
+			<div class="list-group">
+				<ui:repeat value="#{dashboardForm.informations}" var="info">
+					<div class="list-group-item">
+						<h4 class="list-group-item-heading">#{info.message}</h4>
+						<p class="list-group-item-text">#{info.date}</p>
+					</div>
+				</ui:repeat>
+			</div>
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>

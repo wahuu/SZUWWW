@@ -77,9 +77,12 @@ public class FaultForm implements Serializable {
 	private boolean customerBtnDisabled = false;
 	private List<String> statusList;
 	private Fault dialogFault;
+	private Employee currentEmployee;
 
 	@PostConstruct
 	private void init() {
+		this.currentEmployee = employeesBean
+				.getByLogin(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 		this.modifyFault = new Fault();
 		updateAllFaults();
 		this.allFaultTypes = faultTypeBean.getAll();
@@ -97,8 +100,8 @@ public class FaultForm implements Serializable {
 	public void updateAllFaults() {
 		boolean userInRole = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("monter");
 		if (userInRole) {
-			this.allFaults = faultsBean.getByStatus(Arrays.asList(Status.PRZYPISANE.toString(),
-					Status.WREALIZACJI.toString(), Status.ZAMKNIETE.toString()));
+			this.allFaults = faultsBean.getByStatusAndEmployee(Arrays.asList(Status.PRZYPISANE.toString(),
+					Status.WREALIZACJI.toString(), Status.ZAMKNIETE.toString()), currentEmployee);
 		} else {
 			this.allFaults = faultsBean.getAll();
 		}
@@ -133,8 +136,7 @@ public class FaultForm implements Serializable {
 
 	private void validateComment() {
 		if (this.comment.getComment() != null && !"".equals(this.comment.getComment().trim())) {
-			this.comment.setEmployee(
-					employeesBean.getByLogin(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
+			this.comment.setEmployee(currentEmployee);
 			this.comment = commentsBean.add(comment);
 			if (this.modifyFault.getComments() != null) {
 				this.modifyFault.getComments().add(this.comment);
@@ -231,7 +233,7 @@ public class FaultForm implements Serializable {
 			table.addCell(this.dialogFault.getCustomer().getPhoneNumber());
 
 			document.add(table);
-			
+
 			document.add(new Paragraph(" "));
 			document.add(new Paragraph(" "));
 
@@ -264,6 +266,13 @@ public class FaultForm implements Serializable {
 		Customer object = (Customer) event.getObject();
 		employeeList = employeesBean.getByArea(object.getArea());
 		this.employeeBtnDisabled = false;
+	}
+
+	public List<Fault> lastFaultsByStatusAndEmployee(String status) {
+		if ("monter".equals(currentEmployee.getPosition()))
+			return faultsBean.getByStatusAndEmployee(Arrays.asList(status), currentEmployee);
+		else
+			return faultsBean.getByStatus(Arrays.asList(status));
 	}
 
 	public Fault getModifyFault() {

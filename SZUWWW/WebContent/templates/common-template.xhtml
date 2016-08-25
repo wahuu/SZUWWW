@@ -40,6 +40,10 @@
 				<h:form>
 					<section>
 					<ul class="main_menu">
+						<h:panelGroup>
+							<li><b><p:link outcome="/index"
+										value="Panel główny" styleClass="navlink"></p:link></b></li>
+						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{request.isUserInRole('dyspozytor') or request.isUserInRole('bok') or request.isUserInRole('monter')}">
 							<li><b><p:link outcome="/forms/faults"
@@ -47,8 +51,8 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{request.isUserInRole('bok') or request.isUserInRole('dyspozytor')}">
-							<li><b><p:link outcome="/forms/customers" value="Klienci"
-										styleClass="navlink"></p:link></b></li>
+							<li><b><p:link outcome="/forms/customers"
+										value="Klienci" styleClass="navlink"></p:link></b></li>
 						</h:panelGroup>
 						<h:panelGroup rendered="#{request.isUserInRole('admin')}">
 							<li><b><p:link outcome="/forms/employees"
@@ -77,9 +81,7 @@
 	<div class="container">
 		<ui:insert name="content">Default content</ui:insert>
 	</div>
-	<ui:insert name="footer">
-		<div class="footer">&copy; copyright Mariusz Chrusciel.</div>
-	</ui:insert>
+	
 	<ui:insert name="scripts"></ui:insert>
 
 </h:body>

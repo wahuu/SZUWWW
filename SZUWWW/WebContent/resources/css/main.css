@@ -204,14 +204,3 @@ section b {
     font-size: 16px;
     transition: all 0.2s ease 0s;
 }
-
-
-.footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
-}
