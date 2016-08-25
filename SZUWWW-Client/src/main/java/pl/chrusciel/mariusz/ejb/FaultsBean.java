@@ -1,5 +1,7 @@
 package pl.chrusciel.mariusz.ejb;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import pl.chrusciel.mariusz.entities.Employee;
@@ -17,4 +19,6 @@ public interface FaultsBean {
 	public List<Fault> getByStatus(List<String> statusList);
 	
 	public List<Fault> getByStatusAndEmployee(List<String> statusList, Employee employee);
+	
+	public List<HashMap<String, Long>> countFaultsForFaultTypes(Date dateFrom, Date dateTo);
 }

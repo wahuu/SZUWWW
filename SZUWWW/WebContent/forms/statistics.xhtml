@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/common-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h1>Statystyki</h1>
+		<hr />
+
+		<h:form>
+			<p:accordionPanel>
+				<p:tab title="Statystyka procentowa typów zgłoszonych usterek">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:panelGroup>
+							<h:panelGrid columns="2">
+								<p:outputLabel for="dateFrom" value="Data od"
+									style="margin-right: 70px;" />
+								<p:calendar id="dateFrom" value="#{statisticsForm.dateFrom}"
+									pattern="dd-MM-yyyy" mask="true" navigator="true"
+									style="margin-right: 200px;" />
+								<p:outputLabel for="dateTo" value="Data do" />
+								<p:calendar id="dateTo" value="#{statisticsForm.dateTo}"
+									pattern="dd-MM-yyyy" mask="true" />
+							</h:panelGrid>
+							<p:commandButton value="Generuj"
+								action="#{statisticsForm.createPieCountForFaultType}"
+								update="chart1" />
+						</h:panelGroup>
+						<h:panelGroup id="chart1">
+							<p:chart type="pie" model="#{statisticsForm.pieModel1}"
+								style="width:600px;height:300px"
+								rendered="#{statisticsForm.pieModel1 != null}" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Statystyka ilości zgłoszonych usterek">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:panelGroup>
+							<h:panelGrid columns="2">
+								<p:outputLabel for="dateFrom2" value="Data od"
+									style="margin-right: 70px;" />
+								<p:calendar id="dateFrom2" 
+									pattern="dd-MM-yyyy" mask="true" navigator="true"
+									style="margin-right: 200px;" />
+								<p:outputLabel for="dateTo2" value="Data do" />
+								<p:calendar id="dateTo2" 
+									pattern="dd-MM-yyyy" mask="true" />
+							</h:panelGrid>
+							<p:commandButton value="Generuj"
+								action="#{statisticsForm.createPieCountForFaultType}"
+								update="chart1" />
+						</h:panelGroup>
+						<h:panelGroup id="chart2">
+							chart2
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:tab>
+				<p:tab
+					title="Statystyka Ilości zgłoszonych usterek w zależności od rejonu">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:panelGroup>
+							<h:panelGrid columns="2">
+								<p:outputLabel for="dateFrom3" value="Data od"
+									style="margin-right: 70px;" />
+								<p:calendar id="dateFrom3" 
+									pattern="dd-MM-yyyy" mask="true" navigator="true"
+									style="margin-right: 200px;" />
+								<p:outputLabel for="dateTo3" value="Data do" />
+								<p:calendar id="dateTo3" 
+									pattern="dd-MM-yyyy" mask="true" />
+							</h:panelGrid>
+							<p:commandButton value="Generuj"
+								action="#{statisticsForm.createPieCountForFaultType}"
+								update="chart1" />
+						</h:panelGroup>
+						<h:panelGroup id="chart3">
+							chart3
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
