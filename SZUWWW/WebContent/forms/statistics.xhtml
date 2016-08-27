@@ -76,10 +76,12 @@
 							</h:panelGrid>
 							<p:commandButton value="Generuj"
 								action="#{statisticsForm.createPieCountForFaultType}"
-								update="chart1" />
+								update="chart3" />
 						</h:panelGroup>
 						<h:panelGroup id="chart3">
-							chart3
+							<p:chart type="pie" model="#{statisticsForm.pieModel1}"
+								style="width:600px;height:300px"
+								rendered="#{statisticsForm.pieModel1 != null}" />
 						</h:panelGroup>
 					</h:panelGrid>
 				</p:tab>
