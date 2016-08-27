@@ -93,12 +93,22 @@ public class FaultsBeanImpl implements FaultsBean {
 	}
 
 	@Override
-	public void countFaults(Date dateFrom, Date dateTo) {
+	public List<HashMap<String, Object>> countFaults(Date dateFrom, Date dateTo) {
 		Query query = em.createQuery(
 				"Select count(f), DATE(f.filingDate), f.faultType.type from Fault f where f.filingDate > :fromDate and f.filingDate < :toDate group by DATE(f.filingDate), f.faultType.type");
 		query.setParameter("fromDate", dateFrom);
 		query.setParameter("toDate", dateTo);
 		List resultList = query.getResultList();
+		List<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+		for (Object object : resultList) {
+			Object[] queryRow = (Object[]) object;
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			hashMap.put("count", (Long) queryRow[0]);
+			hashMap.put("date", (Date) queryRow[1]);
+			hashMap.put("type", (String) queryRow[2]);
+			result.add(hashMap);
+		}
+		return result;
 	}
 
 }

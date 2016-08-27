@@ -1,10 +1,12 @@
 package pl.chrusciel.mariusz.CDIManagedBeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -18,7 +20,11 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 
+import pl.chrusciel.mariusz.ejb.AreaBean;
+import pl.chrusciel.mariusz.ejb.FaultTypeBean;
 import pl.chrusciel.mariusz.ejb.FaultsBean;
+import pl.chrusciel.mariusz.entities.Area;
+import pl.chrusciel.mariusz.entities.FaultType;
 
 @Named
 @SessionScoped
@@ -26,6 +32,9 @@ public class StatisticsForm implements Serializable {
 
 	@Inject
 	private FaultsBean faultsBean;
+
+	@Inject
+	private FaultTypeBean faultTypeBean;
 
 	private PieChartModel pieModel1;
 	private LineChartModel areaModel;
@@ -54,33 +63,41 @@ public class StatisticsForm implements Serializable {
 	}
 
 	public void createAreaChartFaultsCount() {
-		faultsBean.countFaults(dateFrom2, dateTo2);
+		List<HashMap<String, Object>> countFaults = faultsBean.countFaults(dateFrom2, dateTo2);
+		List<FaultType> all = faultTypeBean.getAll();
+		/**
+		 * prepare hasmap with chart series
+		 */
+		HashMap<String, LineChartSeries> series = new HashMap<String, LineChartSeries>();
+		for (FaultType faultType : all) {
+			LineChartSeries s = new LineChartSeries();
+			s.setFill(true);
+			s.setLabel(faultType.getType());
+			series.put(faultType.getType(), s);
+		}
+		
+		/**
+		 * set values to chart series
+		 */
+		for (HashMap<String, Object> hashmap : countFaults) {
+			LineChartSeries lineChartSeries = series.get((String) hashmap.get("type"));
+			lineChartSeries.set(hashmap.get("date").toString(), (Long) hashmap.get("count"));
+		}
+
 		areaModel = new LineChartModel();
-
-		LineChartSeries phones = new LineChartSeries();
-		phones.setFill(true);
-		phones.setLabel("Telefony");
-		phones.set("01", 10);
-		phones.set("02", 12);
-		phones.set("03", 13);
-
-		LineChartSeries internet = new LineChartSeries();
-		internet.setFill(true);
-		internet.setLabel("Internet");
-		internet.set("01", 20);
-		internet.set("02", 22);
-		internet.set("03", 23);
-
-		areaModel.addSeries(phones);
-		areaModel.addSeries(internet);
-		areaModel.setTitle("Title");
+		/**
+		 * Add series to chart
+		 */
+		for (Entry<String, LineChartSeries> entry : series.entrySet()) {
+			areaModel.addSeries(entry.getValue());
+		}
+		areaModel.setTitle("Statystyka zgłoszonych usterek");
 		areaModel.setLegendPosition("ne");
 		areaModel.setStacked(true);
 		areaModel.setShowPointLabels(true);
 
-		Axis categoryAxis = new CategoryAxis("Days");
+		Axis categoryAxis = new CategoryAxis("Data");
 		areaModel.getAxes().put(AxisType.X, categoryAxis);
-
 		Axis yAxis = areaModel.getAxis(AxisType.Y);
 		yAxis.setLabel("Zgłoszenia");
 	}

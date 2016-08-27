@@ -33,5 +33,5 @@ public interface FaultsBean {
 	 * @param dateFrom
 	 * @param dateTo
 	 */
-	public void countFaults(Date dateFrom, Date dateTo);
+	public List<HashMap<String, Object>> countFaults(Date dateFrom, Date dateTo);
 }
