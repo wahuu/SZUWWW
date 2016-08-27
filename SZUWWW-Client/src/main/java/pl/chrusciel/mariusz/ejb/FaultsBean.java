@@ -20,5 +20,18 @@ public interface FaultsBean {
 	
 	public List<Fault> getByStatusAndEmployee(List<String> statusList, Employee employee);
 	
+	/**
+	 * Dane dla wykresu kolowego usterki ze względu na typ usterki miedzy datami.
+	 * @param dateFrom
+	 * @param dateTo
+	 * @return
+	 */
 	public List<HashMap<String, Long>> countFaultsForFaultTypes(Date dateFrom, Date dateTo);
+	
+	/**
+	 * Dane dla wykresu liniowy ilosc usterek zgloszonych miedzy datami dateFrom a dateTo ze względu na typ usterki.
+	 * @param dateFrom
+	 * @param dateTo
+	 */
+	public void countFaults(Date dateFrom, Date dateTo);
 }

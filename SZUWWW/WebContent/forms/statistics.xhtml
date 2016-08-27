@@ -44,19 +44,21 @@
 							<h:panelGrid columns="2">
 								<p:outputLabel for="dateFrom2" value="Data od"
 									style="margin-right: 70px;" />
-								<p:calendar id="dateFrom2" 
+								<p:calendar id="dateFrom2" value="#{statisticsForm.dateFrom2}"
 									pattern="dd-MM-yyyy" mask="true" navigator="true"
 									style="margin-right: 200px;" />
 								<p:outputLabel for="dateTo2" value="Data do" />
-								<p:calendar id="dateTo2" 
+								<p:calendar id="dateTo2" value="#{statisticsForm.dateTo2}"
 									pattern="dd-MM-yyyy" mask="true" />
 							</h:panelGrid>
 							<p:commandButton value="Generuj"
-								action="#{statisticsForm.createPieCountForFaultType}"
-								update="chart1" />
+								action="#{statisticsForm.createAreaChartFaultsCount}"
+								update="chart2" />
 						</h:panelGroup>
 						<h:panelGroup id="chart2">
-							chart2
+							<p:chart type="line" model="#{statisticsForm.areaModel}"
+								style="height:300px"
+								rendered="#{statisticsForm.areaModel != null}" />
 						</h:panelGroup>
 					</h:panelGrid>
 				</p:tab>
@@ -67,12 +69,10 @@
 							<h:panelGrid columns="2">
 								<p:outputLabel for="dateFrom3" value="Data od"
 									style="margin-right: 70px;" />
-								<p:calendar id="dateFrom3" 
-									pattern="dd-MM-yyyy" mask="true" navigator="true"
-									style="margin-right: 200px;" />
+								<p:calendar id="dateFrom3" pattern="dd-MM-yyyy" mask="true"
+									navigator="true" style="margin-right: 200px;" />
 								<p:outputLabel for="dateTo3" value="Data do" />
-								<p:calendar id="dateTo3" 
-									pattern="dd-MM-yyyy" mask="true" />
+								<p:calendar id="dateTo3" pattern="dd-MM-yyyy" mask="true" />
 							</h:panelGrid>
 							<p:commandButton value="Generuj"
 								action="#{statisticsForm.createPieCountForFaultType}"

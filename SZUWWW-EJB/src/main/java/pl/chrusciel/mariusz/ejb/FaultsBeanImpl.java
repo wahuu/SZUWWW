@@ -92,4 +92,13 @@ public class FaultsBeanImpl implements FaultsBean {
 		return countFaultsForFaultTypes;
 	}
 
+	@Override
+	public void countFaults(Date dateFrom, Date dateTo) {
+		Query query = em.createQuery(
+				"Select count(f), DATE(f.filingDate), f.faultType.type from Fault f where f.filingDate > :fromDate and f.filingDate < :toDate group by DATE(f.filingDate), f.faultType.type");
+		query.setParameter("fromDate", dateFrom);
+		query.setParameter("toDate", dateTo);
+		List resultList = query.getResultList();
+	}
+
 }

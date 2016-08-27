@@ -103,7 +103,7 @@
 		</h:panelGroup>
 
 		<h:panelGroup rendered="#{request.isUserInRole('dyspozytor')}">
-			<h2>Ostatnie zgłoszenia 'W realizacji'</h2>
+			<h2>Ostatnie zgłoszenia 'Zgłoszone'</h2>
 			<p:dataTable
 				value="#{faultForm.lastFaultsByStatusAndEmployee('Zgłoszone')}"
 				var="fault" emptyMessage="Nie znaleziono wyników.">
