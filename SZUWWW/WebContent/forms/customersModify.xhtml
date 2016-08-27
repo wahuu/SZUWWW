@@ -16,6 +16,7 @@
 			<h1>Modyfikuj dane klienta</h1>
 		</h:panelGroup>
 		<h:form>
+		<p:messages autoUpdate="true"/>
 			<p:panelGrid styleClass="ui-panelgrid-blank">
 				<p:row>
 					<p:column>
@@ -25,10 +26,10 @@
 					<p:column>
 						<p:inputText id="imie"
 							value="#{customerForm.modifyCustomer.firstName}"
-							style="margin-right: 200px;"></p:inputText>
+							style="margin-right: 200px;" required="true" requiredMessage="Kolumna 'Imie' jest wymagana."></p:inputText>
 					</p:column>
 					<p:column>
-						<p:outputLabel value="Rejon (Powiat-Gmina)"
+						<p:outputLabel for="advanced2" value="Rejon (Powiat-Gmina)"
 							style="margin-right: 100px;"></p:outputLabel>
 					</p:column>
 					<p:column>
@@ -38,7 +39,7 @@
 						<p:selectOneMenu id="advanced2"
 							value="#{customerForm.modifyCustomer.area}"
 							converter="#{areaConverter}" panelStyle="width:180px"
-							effect="fade" var="a" style="width:160px">
+							effect="fade" var="a" style="width:160px" required="true">
 							<f:selectItem itemLabel="Wybierz rejon" />
 							<f:selectItems value="#{customerForm.allAreas}" var="area"
 								itemLabel="#{area.district}-#{area.borought}" itemValue="#{area}" />
@@ -56,7 +57,7 @@
 					</p:column>
 					<p:column>
 						<p:inputText id="nazwisko"
-							value="#{customerForm.modifyCustomer.lastName}"></p:inputText>
+							value="#{customerForm.modifyCustomer.lastName}" required="true" requiredMessage="Kolumna 'Nazwisko' jest wymagana."></p:inputText>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -65,7 +66,7 @@
 					</p:column>
 					<p:column>
 						<p:inputText id="adres"
-							value="#{customerForm.modifyCustomer.street}"></p:inputText>
+							value="#{customerForm.modifyCustomer.street}" required="true" requiredMessage="Kolumna 'Adres zamieszkania' jest wymagana."></p:inputText>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -74,7 +75,7 @@
 					</p:column>
 					<p:column>
 						<p:inputText id="miasto"
-							value="#{customerForm.modifyCustomer.city}"></p:inputText>
+							value="#{customerForm.modifyCustomer.city}" required="true" requiredMessage="Kolumna 'Miasto' jest wymagana."></p:inputText>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -83,7 +84,7 @@
 					</p:column>
 					<p:column>
 						<p:inputText id="telefon"
-							value="#{customerForm.modifyCustomer.phoneNumber}"></p:inputText>
+							value="#{customerForm.modifyCustomer.phoneNumber}" required="true" requiredMessage="Kolumna 'Telefon' jest wymagana."></p:inputText>
 					</p:column>
 				</p:row>
 

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 	<display-name>SZUWWW</display-name>
 
-	<!-- Change to "Production" when you are ready to deploy -->
+	<!-- Change to "Production" when you are ready to deploy-->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
