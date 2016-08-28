@@ -46,14 +46,16 @@
 
 				<p:row>
 					<p:column>
-						<p:outputLabel value="Typ usterki" style="margin-right: 100px;"></p:outputLabel>
+						<p:outputLabel for="typ_usterki" value="Typ usterki"
+							style="margin-right: 100px;"></p:outputLabel>
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="typ_usterki"
 							value="#{faultForm.modifyFault.faultType}"
 							converter="#{faultTypeConverter}" effect="fade" var="ft"
 							style="width: 250px !important"
-							disabled="#{faultForm.customerBtnDisabled}">
+							disabled="#{faultForm.customerBtnDisabled}" required="true"
+							requiredMessage="Kolumna 'Typ usterki' jest wymagana.">
 							<f:selectItem itemLabel="Wybierz" />
 							<f:selectItems value="#{faultForm.allFaultTypes}" var="faultType"
 								itemLabel="#{faultType.type}" itemValue="#{faultType}" />
@@ -72,7 +74,8 @@
 					<p:column>
 						<p:selectOneMenu id="status"
 							value="#{faultForm.modifyFault.status}" effect="fade"
-							style="width: 100% !important">
+							style="width: 100% !important" required="true"
+							requiredMessage="Kolumna 'Typ usterki' jest wymagana.">
 							<f:selectItem itemLabel="Wybierz" />
 							<f:selectItems value="#{faultForm.statusList}" />
 						</p:selectOneMenu>

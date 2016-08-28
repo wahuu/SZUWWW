@@ -12,9 +12,10 @@
 		<h1>Statystyki</h1>
 		<hr />
 
-		<h:form>
-			<p:accordionPanel>
-				<p:tab title="Statystyka procentowa typów zgłoszonych usterek">
+		<p:messages autoUpdate="true" />
+		<p:accordionPanel>
+			<p:tab title="Statystyka procentowa typów zgłoszonych usterek">
+				<h:form>
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:panelGroup>
 							<h:panelGrid columns="2">
@@ -22,10 +23,12 @@
 									style="margin-right: 70px;" />
 								<p:calendar id="dateFrom" value="#{statisticsForm.dateFrom}"
 									pattern="dd-MM-yyyy" mask="true" navigator="true"
-									style="margin-right: 200px;" />
+									style="margin-right: 200px;" required="true"
+									requiredMessage="Pole 'Data od' jest wymagane." />
 								<p:outputLabel for="dateTo" value="Data do" />
 								<p:calendar id="dateTo" value="#{statisticsForm.dateTo}"
-									pattern="dd-MM-yyyy" mask="true" />
+									pattern="dd-MM-yyyy" mask="true" required="true"
+									requiredMessage="Pole 'Data do' jest wymagane." />
 							</h:panelGrid>
 							<p:commandButton value="Generuj"
 								action="#{statisticsForm.createPieCountForFaultType}"
@@ -37,8 +40,10 @@
 								rendered="#{statisticsForm.pieModel1 != null}" />
 						</h:panelGroup>
 					</h:panelGrid>
-				</p:tab>
-				<p:tab title="Statystyka ilości zgłoszonych usterek">
+				</h:form>
+			</p:tab>
+			<p:tab title="Statystyka ilości zgłoszonych usterek">
+				<h:form>
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:panelGroup>
 							<h:panelGrid columns="2">
@@ -46,10 +51,12 @@
 									style="margin-right: 70px;" />
 								<p:calendar id="dateFrom2" value="#{statisticsForm.dateFrom2}"
 									pattern="dd-MM-yyyy" mask="true" navigator="true"
-									style="margin-right: 200px;" />
+									style="margin-right: 200px;" required="true"
+									requiredMessage="Pole 'Data od' jest wymagane." />
 								<p:outputLabel for="dateTo2" value="Data do" />
 								<p:calendar id="dateTo2" value="#{statisticsForm.dateTo2}"
-									pattern="dd-MM-yyyy" mask="true" />
+									pattern="dd-MM-yyyy" mask="true" required="true"
+									requiredMessage="Pole 'Data do' jest wymagane." />
 							</h:panelGrid>
 							<p:commandButton value="Generuj"
 								action="#{statisticsForm.createAreaChartFaultsCount}"
@@ -61,18 +68,22 @@
 								rendered="#{statisticsForm.areaModel != null}" />
 						</h:panelGroup>
 					</h:panelGrid>
-				</p:tab>
-				<p:tab
-					title="Statystyka Ilości zgłoszonych usterek w zależności od rejonu">
+				</h:form>
+			</p:tab>
+			<p:tab
+				title="Statystyka Ilości zgłoszonych usterek w zależności od rejonu">
+				<h:form>
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:panelGroup>
 							<h:panelGrid columns="2">
 								<p:outputLabel for="dateFrom3" value="Data od"
 									style="margin-right: 70px;" />
 								<p:calendar id="dateFrom3" pattern="dd-MM-yyyy" mask="true"
-									navigator="true" style="margin-right: 200px;" />
+									navigator="true" style="margin-right: 200px;" required="true"
+									requiredMessage="Pole 'Data od' jest wymagane." />
 								<p:outputLabel for="dateTo3" value="Data do" />
-								<p:calendar id="dateTo3" pattern="dd-MM-yyyy" mask="true" />
+								<p:calendar id="dateTo3" pattern="dd-MM-yyyy" mask="true"
+									required="true" requiredMessage="Pole 'Data do' jest wymagane." />
 							</h:panelGrid>
 							<p:commandButton value="Generuj"
 								action="#{statisticsForm.createPieCountForFaultType}"
@@ -84,9 +95,9 @@
 								rendered="#{statisticsForm.pieModel1 != null}" />
 						</h:panelGroup>
 					</h:panelGrid>
-				</p:tab>
-			</p:accordionPanel>
-		</h:form>
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
 
 	</ui:define>
 </ui:composition>
