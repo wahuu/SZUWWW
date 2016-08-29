@@ -49,6 +49,7 @@
 		<display-name>UnSecured</display-name>
 		<web-resource-collection>
 			<url-pattern>/javax.faces.resource/*</url-pattern>
+			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 

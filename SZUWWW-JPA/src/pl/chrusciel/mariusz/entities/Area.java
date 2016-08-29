@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Area implements Serializable {
 	@GeneratedValue
@@ -19,8 +21,10 @@ public class Area implements Serializable {
 	private String borought;
 	private String district;
 	@ManyToMany(mappedBy = "areas", fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Employee> employees;
 	@OneToOne(mappedBy = "area", fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Customer customer;
 
 	public Area() {

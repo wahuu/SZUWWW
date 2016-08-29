@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Comment implements Serializable {
 	@Id
@@ -17,6 +19,7 @@ public class Comment implements Serializable {
 	private String comment;
 	@OneToOne
 	@JoinColumn(name = "employee_id")
+	@JsonIgnore
 	private Employee employee;
 	private Date date;
 

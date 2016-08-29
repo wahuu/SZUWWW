@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Employee implements Serializable {
 	@GeneratedValue
@@ -22,6 +24,7 @@ public class Employee implements Serializable {
 	private String phone;
 	private String position;
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Area> areas;
 
 	public Employee() {
